@@ -1,10 +1,13 @@
 package com.example.Biblioteca.controller;
 
+import com.example.Biblioteca.Entity.AutorEntity;
+import com.example.Biblioteca.Entity.EditoraEntity;
 import com.example.Biblioteca.dto.AutorRequestDTO;
 import com.example.Biblioteca.dto.AutorResponseDTO;
 import com.example.Biblioteca.dto.EditoraRequestDTO;
 import com.example.Biblioteca.dto.EditoraResponseDTO;
 import com.example.Biblioteca.service.AutorService;
+import com.example.Biblioteca.service.EditoraService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

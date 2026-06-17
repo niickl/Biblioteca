@@ -1,7 +1,13 @@
 package com.example.Biblioteca.service;
 
+import com.example.Biblioteca.Entity.AutorEntity;
 import com.example.Biblioteca.Entity.EditoraEntity;
+import com.example.Biblioteca.Entity.LivroEntity;
+import com.example.Biblioteca.dto.EditoraRequestDTO;
+import com.example.Biblioteca.dto.EditoraResponseDTO;
+import com.example.Biblioteca.dto.LivroResponseDTO;
 import com.example.Biblioteca.repository.EditoraRepository;
+import com.example.Biblioteca.repository.LivroRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

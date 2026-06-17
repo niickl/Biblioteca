@@ -1,5 +1,7 @@
 package com.example.Biblioteca.controller;
 
+import com.example.Biblioteca.Entity.EditoraEntity;
+import com.example.Biblioteca.Entity.LivroEntity;
 import com.example.Biblioteca.dto.EditoraRequestDTO;
 import com.example.Biblioteca.dto.EditoraResponseDTO;
 import com.example.Biblioteca.service.EditoraService;

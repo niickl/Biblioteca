@@ -3,6 +3,8 @@ create table if not exists livro (
     nome varchar(255),
     descricao text,
 
+    criado_em timestamp default now(),
+    excluido_em timestamp default null,
 
     autor_id bigint,
     editora_id bigint,
