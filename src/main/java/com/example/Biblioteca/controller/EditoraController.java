@@ -1,7 +1,5 @@
 package com.example.Biblioteca.controller;
 
-import com.example.Biblioteca.dto.AutorRequestDTO;
-import com.example.Biblioteca.dto.AutorResponseDTO;
 import com.example.Biblioteca.dto.EditoraRequestDTO;
 import com.example.Biblioteca.dto.EditoraResponseDTO;
 import com.example.Biblioteca.service.EditoraService;
@@ -19,18 +17,6 @@ public class EditoraController {
 
     private final EditoraService editoraService;
 
-    @PutMapping("/{id}")
-    public ResponseEntity<EditoraResponseDTO> atualizarEditora(@PathVariable Long id, @RequestBody EditoraRequestDTO dto) {
-        EditoraResponseDTO editoraAtualizada = editoraService.atualizarPorID(id, dto);
-        return ResponseEntity.ok(editoraAtualizada);
-    }
-
-    @PutMapping("nome/{nome}")
-    public ResponseEntity<EditoraResponseDTO> atualizarEditoraPorNome(@PathVariable String nome, @RequestBody EditoraRequestDTO dto) {
-        EditoraResponseDTO editoraAtualizada = editoraService.atualizarPorNome(nome, dto);
-        return ResponseEntity.ok(editoraAtualizada);
-    }
-
     @PostMapping
     public ResponseEntity<EditoraResponseDTO> criarEditora(@RequestBody EditoraRequestDTO dto) {
         EditoraResponseDTO editoraSalva = editoraService.criar(dto);
@@ -46,12 +32,6 @@ public class EditoraController {
     @GetMapping("/nome/{nome}")
     public ResponseEntity<List<EditoraResponseDTO>> obterEditoraPorNome(@PathVariable String nome) {
         List<EditoraResponseDTO> editoras = editoraService.buscarPorNome(nome);
-        return ResponseEntity.ok(editoras);
-    }
-
-    @GetMapping
-    public ResponseEntity<List<EditoraResponseDTO>> listarTodasEditoras() {
-        List<EditoraResponseDTO> editoras = editoraService.listarTodos();
         return ResponseEntity.ok(editoras);
     }
 

@@ -49,47 +49,6 @@ public class LivroService {
 
     }
 
-    //atualizar
-    public LivroResponseDTO atualizarPorID(Long id, LivroRequestDTO dto){
-        //buscar o livro existente
-        LivroEntity livro = livroRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Livro não encontrado com id: " + id));
-
-        //atualiza os dados
-        livro.setNome(dto.nome());
-        livro.setDescricao(dto.descricao());
-
-        //salva DTO
-        LivroEntity livroAtualizado = livroRepository.save(livro);
-
-        return new LivroResponseDTO(
-                livroAtualizado.getId(),
-                livroAtualizado.getNome(),
-                livroAtualizado.getDescricao(),
-                livroAtualizado.getAutor().getNome(),
-                livroAtualizado.getEditora().getNome()
-        );
-    }
-
-    public LivroResponseDTO atualizarPorNome(String nome, LivroRequestDTO dto){
-
-        LivroResponseDTO livroDTO = buscarPorNome(nome).stream().findFirst()
-                .orElseThrow(() -> new RuntimeException("Livro não encontrado com nome: " + nome));
-
-        LivroEntity livro = livroRepository.findById(livroDTO.id())
-                .orElseThrow(() -> new RuntimeException("Erro ao carregar entidade do livro"));
-
-        LivroEntity livroAtualizado = livroRepository.save(livro);
-
-        return new LivroResponseDTO(
-                livroAtualizado.getId(),
-                livroAtualizado.getNome(),
-                livroAtualizado.getDescricao(),
-                livroAtualizado.getAutor().getNome(),
-                livroAtualizado.getEditora().getNome()
-        );
-    }
-
     //lista todos os livros
     public List<LivroResponseDTO> listarTodos() {
         return livroRepository.findAll().stream()
