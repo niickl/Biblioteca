@@ -1,44 +1,55 @@
 package com.example.Biblioteca.Entity;
 
-@lombok.Getter
-@lombok.Setter@jakarta.persistence.Entity
-@jakarta.persistence.Table(name = "emprestimo")
-public class Emprestimo {
-@jakarta.persistence.Id
-@jakarta.persistence.GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
-@jakarta.persistence.Column(name = "id", nullable = false)
-private java.lang.Long id;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
-@jakarta.validation.constraints.NotNull
-@jakarta.persistence.ManyToOne(fetch = jakarta.persistence.FetchType.LAZY, optional = false)
-@jakarta.persistence.JoinColumn(name = "usuario_id", nullable = false)
-private com.example.Biblioteca.Entity.UsuarioEntity usuario;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 
-@jakarta.validation.constraints.NotNull
-@jakarta.persistence.ManyToOne(fetch = jakarta.persistence.FetchType.LAZY, optional = false)
-@jakarta.persistence.JoinColumn(name = "livro_id", nullable = false)
-private com.example.Biblioteca.Entity.LivroEntity livro;
+@Getter
+@Setter
+@Entity
+@NoArgsConstructor
+@Table(name = "emprestimo")
+public class EmprestimoEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Long id;
 
-@jakarta.validation.constraints.NotNull
-@jakarta.persistence.Column(name = "data_emprestimo", nullable = false)
-private java.time.LocalDate dataEmprestimo;
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private UsuarioEntity usuario;
 
-@jakarta.validation.constraints.NotNull
-@jakarta.persistence.Column(name = "data_devolucao_prevista", nullable = false)
-private java.time.LocalDate dataDevolucaoPrevista;
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "livro_id", nullable = false)
+    private LivroEntity livro;
 
-@jakarta.validation.constraints.NotNull
-@org.hibernate.annotations.ColumnDefault("false")
-@jakarta.persistence.Column(name = "devolvido", nullable = false)
-private java.lang.Boolean devolvido;
+    @NotNull
+    @Column(name = "data_emprestimo", nullable = false)
+    private LocalDate dataEmprestimo;
 
-@org.hibernate.annotations.ColumnDefault("now()")
-@jakarta.persistence.Column(name = "criado_em")
-private java.time.OffsetDateTime criadoEm;
+    @NotNull
+    @Column(name = "data_devolucao_prevista", nullable = false)
+    private LocalDate dataDevolucaoPrevista;
 
-@jakarta.persistence.Column(name = "excluido_em")
-private java.time.OffsetDateTime excluidoEm;
+    @NotNull
+    @ColumnDefault("false")
+    @Column(name = "devolvido", nullable = false)
+    private Boolean devolvido;
 
+    @ColumnDefault("now()")
+    @Column(name = "criado_em")
+    private OffsetDateTime criadoEm;
+
+    @Column(name = "excluido_em")
+    private OffsetDateTime excluidoEm;
 
 
 }

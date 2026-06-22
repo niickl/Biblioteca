@@ -1,11 +1,8 @@
 package com.example.Biblioteca.service;
 
 import com.example.Biblioteca.Entity.AutorEntity;
-import com.example.Biblioteca.Entity.EditoraEntity;
 import com.example.Biblioteca.dto.AutorRequestDTO;
 import com.example.Biblioteca.dto.AutorResponseDTO;
-import com.example.Biblioteca.dto.EditoraRequestDTO;
-import com.example.Biblioteca.dto.EditoraResponseDTO;
 import com.example.Biblioteca.repository.AutorRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

@@ -2,9 +2,10 @@ create table if not exists livro (
     id bigserial primary key,
     nome varchar(255),
     descricao text,
+    lido BOOLEAN DEFAULT FALSE,
 
-    criado_em timestamp default now(),
-    excluido_em timestamp default null,
+    criado_em timestamptz default now(),
+    excluido_em timestamptz default null,
 
     autor_id bigint,
     editora_id bigint,
