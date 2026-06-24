@@ -7,7 +7,6 @@ import com.example.Biblioteca.dto.UsuarioResponseDTO;
 import com.example.Biblioteca.repository.RoleRepository;
 import com.example.Biblioteca.repository.UsuarioRepository;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
