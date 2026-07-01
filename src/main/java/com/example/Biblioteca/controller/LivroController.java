@@ -1,8 +1,5 @@
 package com.example.Biblioteca.controller;
 
-import com.example.Biblioteca.Entity.EditoraEntity;
-import com.example.Biblioteca.Entity.LivroEntity;
-import com.example.Biblioteca.dto.EditoraResponseDTO;
 import com.example.Biblioteca.dto.LivroRequestDTO;
 import com.example.Biblioteca.dto.LivroResponseDTO;
 import com.example.Biblioteca.service.LivroService;
@@ -49,5 +46,13 @@ public class LivroController {
         LivroResponseDTO livro = livroService.deletarPorNome(nome);
         return ResponseEntity.ok(livro);
     }
+
+    @PatchMapping("/{id}/lido")
+    public ResponseEntity<Void> marcarComoLido(@PathVariable Long id) {
+        livroService.marcarComoLido(id);
+
+        return ResponseEntity.ok().build();
+    }
+
 
 }

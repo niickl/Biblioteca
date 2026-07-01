@@ -21,6 +21,9 @@ public class AutorService {
         AutorEntity novoAutor = new AutorEntity();
 
         novoAutor.setNome(dto.nome());
+        if (dto.nome() == null || dto.nome().isBlank()) {
+            throw new IllegalArgumentException("O nome do autor não pode estar em branco");
+        }
         novoAutor.setIdade(dto.idade());
         novoAutor.setBiografia(dto.biografia());
 

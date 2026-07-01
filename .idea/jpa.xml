@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JpaBuddyIdeaProjectConfig" useNamedParametersForRepoQuery="true" isModifyingTransactionalReadOnly="true">
+    <option name="modifyingTransactionalReadOnly" value="true" />
+    <option name="reLastEntityCreationPackage" value="src/main/java/com/example/Biblioteca/Entity" />
+    <option name="reverseEngineeringLastDbConnectionId" value="a8434943-572d-462e-a407-c902c9c195bd" />
+  </component>
+</project>

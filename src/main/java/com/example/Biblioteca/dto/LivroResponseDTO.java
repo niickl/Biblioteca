@@ -7,7 +7,7 @@ public record LivroResponseDTO(
 
         String nomeAutor,
 
-        String nomeEditora
-
+        String nomeEditora,
+		boolean lido
 ) {
 }

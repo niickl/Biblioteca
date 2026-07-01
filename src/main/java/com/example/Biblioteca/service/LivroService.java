@@ -44,7 +44,8 @@ public class LivroService {
                 livroSalvo.getNome(),
                 livroSalvo.getDescricao(),
                 livroSalvo.getAutor().getNome(),
-                livroSalvo.getEditora().getNome()
+                livroSalvo.getEditora().getNome(),
+                livroSalvo.getLido()
         );
 
     }
@@ -57,7 +58,8 @@ public class LivroService {
                         livro.getNome(),
                         livro.getDescricao(),
                         livro.getAutor().getNome(),
-                        livro.getEditora().getNome()
+                        livro.getEditora().getNome(),
+                        livro.getLido()
                 ))
                 .toList();
     }
@@ -72,7 +74,8 @@ public class LivroService {
                 livro.getNome(),
                 livro.getDescricao(),
                 livro.getAutor().getNome(),
-                livro.getEditora().getNome()
+                livro.getEditora().getNome(),
+                livro.getLido()
         );
     }
 
@@ -90,7 +93,8 @@ public class LivroService {
                 livro.getNome(),
                 livro.getDescricao(),
                 livro.getAutor().getNome(),
-                livro.getEditora().getNome()
+                livro.getEditora().getNome(),
+                livro.getLido()
         );
     }
 
@@ -99,6 +103,24 @@ public class LivroService {
                 .orElseThrow(() -> new RuntimeException("Livro não encontrado com nome: " + nome));
         livroRepository.deleteAllById(List.of(livroEncontrado.id()));
         return livroEncontrado;
+    }
+
+    public LivroResponseDTO marcarComoLido (Long id) {
+
+        LivroEntity livro = livroRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Livro não encontrado com o ID: " + id));
+
+        livro.setLido(true);
+        livroRepository.save(livro);
+
+        return new LivroResponseDTO(
+                livro.getId(),
+                livro.getNome(),
+                livro.getDescricao(),
+                livro.getAutor().getNome(),
+                livro.getEditora().getNome(),
+                livro.getLido()
+        );
     }
 
 }

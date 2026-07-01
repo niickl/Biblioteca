@@ -1,0 +1,4 @@
+api:
+  security:
+    token:
+      secret: "chave-super-secreta-de-teste"
