@@ -6,11 +6,13 @@ import com.example.Biblioteca.dto.UsuarioRequestDTO;
 import com.example.Biblioteca.dto.UsuarioResponseDTO;
 import com.example.Biblioteca.repository.RoleRepository;
 import com.example.Biblioteca.repository.UsuarioRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,13 +29,13 @@ public class UsuarioService {
 
         //verifica se já existe
         if (usuarioRepository.findByLogin(usuarioRequestDTO.login()).isPresent()) {
-            throw new RuntimeException("Usuário já existe");
+            throw new IllegalArgumentException("Usuário já existe");
         }
 
         // 2. Busca as roles no banco de dados baseadas nos Enums que vieram do DTO
         Set<RoleEntity> roles = usuarioRequestDTO.roles().stream()
                 .map(roleEnum -> roleRepository.buscarPorStatus(roleEnum)
-                        .orElseThrow(() -> new RuntimeException("Role não encontrada: " + roleEnum)))
+                        .orElseThrow(() -> new EntityNotFoundException("Role não encontrada: " + roleEnum)))
                 .collect(Collectors.toSet());
 
         //monta a entidade
@@ -54,5 +56,35 @@ public class UsuarioService {
         );
     }
 
+    public UsuarioResponseDTO associarRole(UUID usuarioId, Long roleID) {
+        UsuarioEntity usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado com ID: " + usuarioId));
 
+        RoleEntity role = roleRepository.findById(roleID)
+                .orElseThrow(() -> new EntityNotFoundException("Role não encontrada com ID: " + roleID));
+
+        if (usuario.getRoles().contains(role)) {
+            throw new IllegalArgumentException("O usuário já possui a role: " + role.getStatus());
+        }
+
+        usuario.getRoles().add(role);
+        usuarioRepository.save(usuario);
+
+        return new UsuarioResponseDTO(
+                usuario.getId(),
+                usuario.getNome(),
+                usuario.getLogin()
+        );
+    }
+
+    public void removerRole (UUID usuarioId, Long roleID) {
+        UsuarioEntity usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado com ID: " + usuarioId));
+
+        RoleEntity role = roleRepository.findById(roleID)
+                .orElseThrow(() -> new EntityNotFoundException("Role não encontrada com ID: " + roleID));
+
+        usuario.getRoles().remove(role);
+        usuarioRepository.save(usuario);
+    }
 }

@@ -4,6 +4,7 @@ import com.example.Biblioteca.Entity.EditoraEntity;
 import com.example.Biblioteca.dto.EditoraRequestDTO;
 import com.example.Biblioteca.dto.EditoraResponseDTO;
 import com.example.Biblioteca.repository.EditoraRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -49,7 +50,7 @@ public class EditoraService {
 
     public EditoraResponseDTO buscarPorId(Long id){
         EditoraEntity editora = editoraRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Editora não encontrada com id: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Editora não encontrada com id: " + id));
         return new EditoraResponseDTO(
                 editora.getId(),
                 editora.getNome(),
@@ -60,7 +61,7 @@ public class EditoraService {
     //delete
     public EditoraResponseDTO deletarPorId(Long id) {
          EditoraEntity editora = editoraRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Editora não encontrada com id: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Editora não encontrada com id: " + id));
         editoraRepository.delete(editora);
         return new EditoraResponseDTO(
                 editora.getId(),
@@ -71,7 +72,7 @@ public class EditoraService {
 
     public EditoraResponseDTO deletarPorNome(String nome){
          EditoraResponseDTO editoraEncontrada = buscarPorNome(nome).stream().findFirst()
-                .orElseThrow(() -> new RuntimeException("Editora não encontrada com nome: " + nome));
+                .orElseThrow(() -> new EntityNotFoundException("Editora não encontrada com nome: " + nome));
         editoraRepository.deleteById(editoraEncontrada.id());
         return editoraEncontrada;
     }

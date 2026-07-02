@@ -4,6 +4,8 @@ import com.example.Biblioteca.dto.LivroRequestDTO;
 import com.example.Biblioteca.dto.LivroResponseDTO;
 import com.example.Biblioteca.service.LivroService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +22,7 @@ public class LivroController {
     public ResponseEntity<LivroResponseDTO> criarLivro(@RequestBody LivroRequestDTO dto) throws Throwable {
         LivroResponseDTO livroSalvo = livroService.criar(dto);
 
-        return ResponseEntity.ok(livroSalvo);
+        return ResponseEntity.status(HttpStatus.CREATED).body(livroSalvo);
     }
 
     @GetMapping("/{id}")

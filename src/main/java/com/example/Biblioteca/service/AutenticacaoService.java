@@ -3,6 +3,7 @@ package com.example.Biblioteca.service;
 import com.example.Biblioteca.Entity.UsuarioEntity;
 import com.example.Biblioteca.repository.UsuarioRepository;
 import com.example.Biblioteca.security.UsuarioSecurityAdapter;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,7 +18,7 @@ public class AutenticacaoService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UsuarioEntity usuario = repository.findByLogin(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado: " + username));
+                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado: " + username));
         // Usa o repository que agora retorna um Optional.
         return new UsuarioSecurityAdapter(usuario);
     }

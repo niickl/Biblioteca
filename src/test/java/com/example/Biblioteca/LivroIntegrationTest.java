@@ -18,17 +18,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.resttestclient.TestRestTemplate;
 import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureTestRestTemplate;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.webclient.test.autoconfigure.AutoConfigureWebClient;
 import org.springframework.http.*;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
-import java.net.http.HttpClient;
-import java.util.HashSet;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @AutoConfigureTestRestTemplate
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-        properties = {"api.security.token.secret=chave-super-secreta-de-teste"})
+        properties = {
+        "api.security.token.secret=chave-super-secreta-de-teste",
+         "spring.flyway.enabled=false",
+         "spring.jpa.hibernate.ddl-auto=create-drop"
+		})
+
+
 public class LivroIntegrationTest {
     private final TestRestTemplate restTemplate;
     private final TokenService tokenService;
@@ -37,19 +42,24 @@ public class LivroIntegrationTest {
     private final AutorRepository autorRepository;
     private final EditoraRepository editoraRepository;
 
+    @MockitoBean
+    private JavaMailSender javaMailSender;
+
     @Autowired
-    public LivroIntegrationTest(TestRestTemplate restTemplate,
-                                TokenService tokenService,
-                                UsuarioRepository usuarioRepository,
-                                LivroRepository livroRepository,
-                                AutorRepository autorRepository,
-                                EditoraRepository editoraRepository) {
+    public LivroIntegrationTest(
+            TestRestTemplate restTemplate,
+            LivroRepository livroRepository,
+            AutorRepository autorRepository,
+            EditoraRepository editoraRepository,
+            TokenService tokenService,
+            UsuarioRepository usuarioRepository
+    ) {
         this.restTemplate = restTemplate;
-        this.tokenService = tokenService;
-        this.usuarioRepository = usuarioRepository;
         this.livroRepository = livroRepository;
         this.autorRepository = autorRepository;
         this.editoraRepository = editoraRepository;
+        this.tokenService = tokenService;
+        this.usuarioRepository = usuarioRepository;
     }
 
     private HttpHeaders headers;
@@ -61,7 +71,12 @@ public class LivroIntegrationTest {
     @BeforeEach
     void setUp() {
 
-        usuarioBase = new UsuarioEntity(null, "Testador", "teste@teste.com", "senha123", null, null, new HashSet<>());
+        usuarioBase = new UsuarioEntity();
+        usuarioBase.setNome("Testador");
+        usuarioBase.setLogin("teste@teste.com");
+        usuarioBase.setSenha("senha123");
+        usuarioBase.setRoles(new java.util.HashSet<>());
+
         usuarioBase = usuarioRepository.save(usuarioBase);
 
         String token = tokenService.generateToken(usuarioBase);
@@ -70,8 +85,17 @@ public class LivroIntegrationTest {
         headers.set("Authorization", "Bearer " + token);
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        autorBase = autorRepository.save(new AutorEntity(null, "Tolkien", 80, "Criador de mundos", null, null, null));
-        editoraBase = editoraRepository.save(new EditoraEntity(null, "HarperCollins", "123456789", null, null, null));
+        AutorEntity autor = new AutorEntity();
+        autor.setNome("Tolkien");
+        autor.setIdade(80);
+        autor.setBiografia("Criador de mundos");
+        autorBase = autorRepository.save(autor);
+
+        EditoraEntity editora = new EditoraEntity();
+        editora.setNome("HarperCollins");
+        editora.setCnpj("123456789");
+        editoraBase = editoraRepository.save(editora);
+
     }
 
     @AfterEach

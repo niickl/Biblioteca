@@ -31,7 +31,7 @@ public class RoleEntity {
 
     @Enumerated(EnumType.STRING)
     @JdbcTypeCode(SqlTypes.NAMED_ENUM)
-    @Column(name = "status", columnDefinition = "role_ not null")
+    @Column(name = "status", nullable = false)
     private RoleEnum status;
 
     @ColumnDefault("NULL")
